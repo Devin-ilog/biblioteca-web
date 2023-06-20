@@ -45,7 +45,7 @@ function App() {
           mensagem && <h3 className={mensagem.tipo === 'erro' ? 'error-message' : 'info-message'}>{mensagem.texto}</h3>
         }
         <Routes>
-          <Route path="/" element = { <Listagem livros={livros} leitores={leitores} /> } />   
+          <Route path="/" element = { <Listagem livros={livros} leitores={leitores} fcAtualizar={atualizarListas} /> } />   
           <Route path="cadastro-leitor" element = { <CadastroLeitor fcAtualizar={atualizarListas} /> } />
           <Route path="emprestimo" element = { <Emprestimo /> } />
           <Route path="relatorio" element = { <Relatorio /> } />

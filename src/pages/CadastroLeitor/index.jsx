@@ -44,7 +44,7 @@ export default function CadastroLeitor({ fcAtualizar }) {
           <label htmlFor='input-data-nascimento'>Data de Nascimento:</label>
           <input type='date' id='input-data-nascimento' ref={dataNascRef} />
         </div>
-        <button onClick={() => handleCadastrar()}>Cadastrar</button>
+        <button onClick={handleCadastrar}>Cadastrar</button>
       </div>
     </div>
   )

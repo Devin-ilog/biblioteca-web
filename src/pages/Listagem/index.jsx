@@ -1,10 +1,25 @@
+import { useState } from 'react';
 import dateFormat from 'dateformat';
+import { deleteLeitor } from '../../service/api-client';
 import './styles.css';
 
-export default function Listagem({ livros, leitores }) {
+export default function Listagem({ livros, leitores, fcAtualizar }) {
+
+  const [mensagem, setMensagem] = useState('');
+
+  function handleExcluirLeitor(cpf) {
+    deleteLeitor(cpf)
+    .then(resp => setMensagem( { texto: 'Leitor de CPF ' + cpf + ' excluído!', tipo: 'info' } ))
+    .then(resp => fcAtualizar())
+    .catch(error => setMensagem( { texto: 'Erro: ' + error.message, tipo: 'erro' } ));
+  }
 
   return (
     <div className='listagem-container'>
+      {
+        mensagem && <h3 className={mensagem.tipo === 'erro' ? 'error-message' : 'info-message'}>{mensagem.texto}</h3>
+      }
+      
       <h2>Listagem</h2>
 
       <h3>Livros</h3>
@@ -42,7 +57,7 @@ export default function Listagem({ livros, leitores }) {
             </thead>
             <tbody>
                 {
-                  leitores.map( leitor => <TabelaLeitor key={leitor.cpf} leitor={leitor} />)
+                  leitores.map( leitor => <TabelaLeitor key={leitor.cpf} leitor={leitor} handleExcluirLeitor={handleExcluirLeitor} />)
                 }
             </tbody>
           </table>
@@ -64,14 +79,14 @@ function TabelaLivro({ livro }) {
   </tr>)
 }
 
-function TabelaLeitor({ leitor }) {
+function TabelaLeitor({ leitor, handleExcluirLeitor}) {
   return (
     <tr>
       <td>{leitor.cpf}</td>
       <td>{leitor.nome}</td>
       <td>{dateFormat(new Date(leitor.dataNascimento), 'dd/mm/yyyy')}</td>
       <td>{leitor.qtdEmprestimos}</td>
-      <td><button onClick={() => alert('clicou')}>Excluir</button></td>
+      <td><button onClick={() => handleExcluirLeitor(leitor.cpf)}>Excluir</button></td>
     </tr>
   );
 }
