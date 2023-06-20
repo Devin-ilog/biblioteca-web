@@ -33,6 +33,14 @@ export async function createLeitor(leitor) {
     }
 }
 
+export async function deleteLeitor(cpf) {
+    try {
+        await axios.delete(BASE_URL + '/leitores/' + cpf);
+    } catch (error) {
+        tratarErro(error);
+    }
+}
+
 
 function tratarErro(error) {
     // console.log('Erro na chamada da API', error);
