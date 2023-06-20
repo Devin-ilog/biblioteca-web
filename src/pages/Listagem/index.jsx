@@ -1,6 +1,8 @@
+import dateFormat from 'dateformat';
 import './styles.css';
 
-export default function Listagem({ livros }) {
+export default function Listagem({ livros, leitores }) {
+
   return (
     <div className='listagem-container'>
       <h2>Listagem</h2>
@@ -26,6 +28,25 @@ export default function Listagem({ livros }) {
       }
 
       <h3>Leitores</h3>
+      {
+        (!leitores || leitores.length === 0) ? <span>Sem leitores cadastrados</span> :
+          <table>
+            <thead>
+              <tr>
+                <th>cpf</th>
+                <th>nome</th>
+                <th>data de nascimento</th>
+                <th>empréstimos</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {
+                  leitores.map( leitor => <TabelaLeitor key={leitor.cpf} leitor={leitor} />)
+                }
+            </tbody>
+          </table>
+      }
 
       <h3>Empréstimos</h3>
 
@@ -41,4 +62,16 @@ function TabelaLivro({ livro }) {
     <td>{livro.autores}</td>
     <td className={livro.disponivel ? 'livro-disponivel' : 'livro-indisponivel'}>{livro.disponivel ? 'SIM' : 'NÃO'}</td>
   </tr>)
+}
+
+function TabelaLeitor({ leitor }) {
+  return (
+    <tr>
+      <td>{leitor.cpf}</td>
+      <td>{leitor.nome}</td>
+      <td>{dateFormat(new Date(leitor.dataNascimento), 'dd/mm/yyyy')}</td>
+      <td>{leitor.qtdEmprestimos}</td>
+      <td><button onClick={() => alert('clicou')}>Excluir</button></td>
+    </tr>
+  );
 }
