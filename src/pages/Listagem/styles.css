@@ -1,0 +1,25 @@
+.listagem-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.listagem-container table {
+    text-align: center;
+    margin: 15px;
+    border-collapse: collapse;
+}
+
+.listagem-container table th, td {
+    padding: 10px;
+    border: 1px solid grey;
+    font-size: 1.1rem;
+}
+
+.livro-disponivel {
+    color: green;
+}
+
+.livro-indisponivel {
+    color: red;
+}
