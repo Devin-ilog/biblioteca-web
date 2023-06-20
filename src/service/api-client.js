@@ -21,8 +21,16 @@ export async function fetchLeitores() {
     } catch (error) {
         tratarErro(error);
     }
+}
 
-
+export async function createLeitor(leitor) {
+    try {
+        const resp = await axios.post(BASE_URL + '/leitores', leitor);
+        const incluido = resp.data;
+        return incluido;
+    } catch (error) {
+        tratarErro(error);
+    }
 }
 
 

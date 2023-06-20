@@ -15,13 +15,23 @@ function App() {
   const [leitores, setLeitores] = useState([]);
   const [mensagem, setMensagem] = useState('');
 
+  function atualizarListas() {
+    Promise.all([fetchLivros(), fetchLeitores()])
+      .then(dados => {
+        setLivros(dados[0]); 
+        setLeitores(dados[1]);
+      })
+      .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
+  }
+
   useEffect(() => {
-   fetchLivros()
-    .then(dados => setLivros(dados))
-    .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
-   fetchLeitores()
-    .then(dados => setLeitores(dados))
-    .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
+    atualizarListas();
+  //  fetchLivros()
+  //   .then(dados => setLivros(dados))
+  //   .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
+  //  fetchLeitores()
+  //   .then(dados => setLeitores(dados))
+  //   .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
   }, [])
   
   if ((!livros) && !mensagem) 
@@ -36,7 +46,7 @@ function App() {
         }
         <Routes>
           <Route path="/" element = { <Listagem livros={livros} leitores={leitores} /> } />   
-          <Route path="cadastro-leitor" element = { <CadastroLeitor /> } />
+          <Route path="cadastro-leitor" element = { <CadastroLeitor fcAtualizar={atualizarListas} /> } />
           <Route path="emprestimo" element = { <Emprestimo /> } />
           <Route path="relatorio" element = { <Relatorio /> } />
         </Routes>
