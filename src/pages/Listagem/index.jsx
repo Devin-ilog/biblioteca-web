@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import dateFormat from 'dateformat';
-import { deleteLeitor } from '../../service/api-client';
+import { deleteEmprestimo, deleteLeitor } from '../../service/api-client';
 import './styles.css';
 
 export default function Listagem({ livros, leitores, emprestimos, fcAtualizar }) {
@@ -12,6 +12,13 @@ export default function Listagem({ livros, leitores, emprestimos, fcAtualizar })
     .then(resp => setMensagem( { texto: 'Leitor de CPF ' + cpf + ' excluído!', tipo: 'info' } ))
     .then(resp => fcAtualizar())
     .catch(error => setMensagem( { texto: 'Erro: ' + error.message, tipo: 'erro' } ));
+  }
+
+  function handleDevolverEmprestimo(id) {
+    deleteEmprestimo(id)
+      .then(resp => setMensagem( { texto: 'Empréstimo de id ' + id + ' excluído!', tipo: 'info' } ))
+      .then(resp => fcAtualizar())
+      .catch(error => setMensagem( { texto: 'Erro: ' + error.message, tipo: 'erro' } ));
   }
 
   return (
@@ -79,7 +86,7 @@ export default function Listagem({ livros, leitores, emprestimos, fcAtualizar })
           </thead>
           <tbody>
               {
-                emprestimos.map( emp => <TabelaEmprestimo key={emp.id} emprestimo={emp} /> )
+                emprestimos.map( emp => <TabelaEmprestimo key={emp.id} emprestimo={emp} fcDevolucao={handleDevolverEmprestimo} /> )
               }
           </tbody>
         </table>
@@ -111,7 +118,7 @@ function TabelaLeitor({ leitor, handleExcluirLeitor}) {
   );
 }
 
-function TabelaEmprestimo({ emprestimo }) {
+function TabelaEmprestimo({ emprestimo, fcDevolucao }) {
   return (
     <tr>
       <td>{emprestimo.id}</td>
@@ -119,7 +126,7 @@ function TabelaEmprestimo({ emprestimo }) {
       <td>{emprestimo.titulo}</td>
       <td>{emprestimo.cpf}</td>
       <td>{emprestimo.nome}</td>
-      <td><button onClick={() => alert('devolver')}>Devolver</button></td>
+      <td><button onClick={() => fcDevolucao(emprestimo.id)}>Devolver</button></td>
     </tr>
   );
 }
