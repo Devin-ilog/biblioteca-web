@@ -61,6 +61,15 @@ export async function createEmprestimo(emprestimo) {
     }
 }
 
+export async function deleteEmprestimo(id) {
+    try {
+        await axios.delete(BASE_URL + '/emprestimos/' + id);
+    } catch (error) {
+        tratarErro(error);
+    }
+}
+
+
 function tratarErro(error) {
     // console.log('Erro na chamada da API', error);
     if (!error.response)
