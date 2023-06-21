@@ -41,6 +41,16 @@ export async function deleteLeitor(cpf) {
     }
 }
 
+export async function fetchEmprestimos() {
+    try {
+        const resp = await axios.get(BASE_URL + '/emprestimos');
+        const emprestimos = resp.data;
+        return emprestimos;
+    } catch (error) {
+        tratarErro(error);
+    }
+}
+
 
 function tratarErro(error) {
     // console.log('Erro na chamada da API', error);
