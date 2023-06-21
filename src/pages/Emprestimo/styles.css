@@ -1,0 +1,42 @@
+.emprestimo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-emprestimo {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+}
+
+.input-grupo {
+    margin: 10px 0px;
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-emprestimo label {
+    padding: 0px 10px;
+    width: 190px;
+    margin-right: 5px;
+    text-align: right;
+}
+
+.form-emprestimo select {
+    padding: 0px 10px;
+    font-size: 1.1rem;
+    width: 300px;
+}
+
+.form-emprestimo button {
+    margin: 20px;
+    font-size: 1.1rem;
+    width: 180px;
+    height: 35px;
+}
