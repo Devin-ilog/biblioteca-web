@@ -3,7 +3,7 @@ import dateFormat from 'dateformat';
 import { deleteLeitor } from '../../service/api-client';
 import './styles.css';
 
-export default function Listagem({ livros, leitores, fcAtualizar }) {
+export default function Listagem({ livros, leitores, emprestimos, fcAtualizar }) {
 
   const [mensagem, setMensagem] = useState('');
 
@@ -64,6 +64,26 @@ export default function Listagem({ livros, leitores, fcAtualizar }) {
       }
 
       <h3>Empréstimos</h3>
+      {
+        (!emprestimos || emprestimos.length === 0) ? <span>Sem emprestimos cadastrados</span> :
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>isbn</th>
+              <th>título</th>
+              <th>cpf</th>
+              <th>nome</th>
+              <th>ações</th>
+            </tr>
+          </thead>
+          <tbody>
+              {
+                emprestimos.map( emp => <TabelaEmprestimo key={emp.id} emprestimo={emp} /> )
+              }
+          </tbody>
+        </table>
+      }
 
     </div>
   )
@@ -87,6 +107,19 @@ function TabelaLeitor({ leitor, handleExcluirLeitor}) {
       <td>{dateFormat(new Date(leitor.dataNascimento), 'dd/mm/yyyy')}</td>
       <td>{leitor.qtdEmprestimos}</td>
       <td><button onClick={() => handleExcluirLeitor(leitor.cpf)}>Excluir</button></td>
+    </tr>
+  );
+}
+
+function TabelaEmprestimo({ emprestimo }) {
+  return (
+    <tr>
+      <td>{emprestimo.id}</td>
+      <td>{emprestimo.isbn}</td>
+      <td>{emprestimo.titulo}</td>
+      <td>{emprestimo.cpf}</td>
+      <td>{emprestimo.nome}</td>
+      <td><button onClick={() => alert('devolver')}>Devolver</button></td>
     </tr>
   );
 }

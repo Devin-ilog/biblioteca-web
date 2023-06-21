@@ -5,7 +5,7 @@ import Listagem from './pages/Listagem';
 import CadastroLeitor from './pages/CadastroLeitor';
 import Emprestimo from './pages/Emprestimo';
 import Relatorio from './pages/Relatorio';
-import { fetchLeitores, fetchLivros } from './service/api-client';
+import { fetchEmprestimos, fetchLeitores, fetchLivros } from './service/api-client';
 import './App.css';
 
 
@@ -13,13 +13,15 @@ function App() {
   
   const [livros, setLivros] = useState([]);
   const [leitores, setLeitores] = useState([]);
+  const [emprestimos, setEmprestimos] = useState([]);
   const [mensagem, setMensagem] = useState('');
 
   function atualizarListas() {
-    Promise.all([fetchLivros(), fetchLeitores()])
+    Promise.all([fetchLivros(), fetchLeitores(), fetchEmprestimos()])
       .then(dados => {
         setLivros(dados[0]); 
         setLeitores(dados[1]);
+        setEmprestimos(dados[2]);
       })
       .catch(error => setMensagem( { texto: error.message, tipo: 'erro' } ));
   }
@@ -45,7 +47,8 @@ function App() {
           mensagem && <h3 className={mensagem.tipo === 'erro' ? 'error-message' : 'info-message'}>{mensagem.texto}</h3>
         }
         <Routes>
-          <Route path="/" element = { <Listagem livros={livros} leitores={leitores} fcAtualizar={atualizarListas} /> } />   
+          <Route path="/" element = { <Listagem livros={livros} leitores={leitores} emprestimos={emprestimos}
+              fcAtualizar={atualizarListas} /> } />   
           <Route path="cadastro-leitor" element = { <CadastroLeitor fcAtualizar={atualizarListas} /> } />
           <Route path="emprestimo" element = { <Emprestimo /> } />
           <Route path="relatorio" element = { <Relatorio /> } />
