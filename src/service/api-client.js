@@ -51,6 +51,15 @@ export async function fetchEmprestimos() {
     }
 }
 
+export async function createEmprestimo(emprestimo) {
+    try {
+        const resp = await axios.post(BASE_URL + '/emprestimos', emprestimo);
+        const incluido = resp.data;
+        return incluido;
+    } catch (error) {
+        tratarErro(error);
+    }
+}
 
 function tratarErro(error) {
     // console.log('Erro na chamada da API', error);

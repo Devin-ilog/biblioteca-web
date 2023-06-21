@@ -50,7 +50,7 @@ function App() {
           <Route path="/" element = { <Listagem livros={livros} leitores={leitores} emprestimos={emprestimos}
               fcAtualizar={atualizarListas} /> } />   
           <Route path="cadastro-leitor" element = { <CadastroLeitor fcAtualizar={atualizarListas} /> } />
-          <Route path="emprestimo" element = { <Emprestimo /> } />
+          <Route path="emprestimo" element = { <Emprestimo livros={livros} leitores={leitores} fcAtualizar={atualizarListas} /> } />
           <Route path="relatorio" element = { <Relatorio /> } />
         </Routes>
       </div>
